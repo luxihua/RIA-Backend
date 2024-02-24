@@ -13,11 +13,20 @@ java {
 
 repositories {
     mavenCentral()
+    google()
+    maven {
+        url 'https://mvnrepository.com/artifact/com.google.cloud/'
+    }
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.projectlombok:lombok:1.18.30'
+    implementation platform('com.google.cloud:libraries-bom:26.1.5')
+    implementation 'com.google.cloud:google-cloud-vision'
+
 }
 
 tasks.named('test') {

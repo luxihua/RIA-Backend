@@ -1,6 +1,8 @@
 package com.example.ria.service;
 
 import com.google.cloud.vision.v1.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -11,6 +13,9 @@ import java.util.Map;
 
 @Service
 public class VisionService {
+
+    @Value("${gcs.imagePath}")
+    private String imagePath;
 
     // Detects whether the remote image on Google Cloud Storage has features you would want to
     // moderate.
@@ -25,11 +30,14 @@ public class VisionService {
             BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
             AnnotateImageResponse res = response.getResponses(0);
 
+            // 에러 처리
             if (res.hasError()) {
                 System.out.format("Error: %s%n", res.getError().getMessage());
                 return;
             }
+
             WebDetection annotation = res.getWebDetection();
+
             System.out.println("Entity:Id:Score");
             System.out.println("===============");
             Map<String,Float> entityData = getEntityData(annotation);

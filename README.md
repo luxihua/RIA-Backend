@@ -27,19 +27,20 @@
 * service
     + UserService(CRUD)
     + GCSService(Upload)
+    + VisionService(Web Detection 사용)
     + map(package)
         - KaKaoMapService
             * keyword로 장소 찾기 서비스
-                - Input : Keyword(String)
+                - Input : Keyword= best guess LABEL(String)
                 - Output : List<placeSearchDto>
         - PulicDataMapService
             * placeSearchDto의 x, y 값을 활용하여 추천 지역 정보 전달하기
                 - Input : placeSearchDto
                 - Output : List <placeResultDto>
-        - TranslateService
-            * Google Translate API로 번역 결과 GET
-                - Input : productId(String), targetLanguage(String), text(String)
-                - Output : String
+    + TranslateService
+        - Google Translate API로 번역 결과 GET
+        - Input : productId(String), targetLanguage(String), text(String)
+        - Output : String
                 
                 
                 

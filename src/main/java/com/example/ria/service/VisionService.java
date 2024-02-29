@@ -1,7 +1,6 @@
 package com.example.ria.service;
 
 import com.google.cloud.vision.v1.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
 package com.example.ria.controller.map;
 
+
 import com.example.ria.RiaApplication;
 import com.example.ria.common.Constants;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,36 +20,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = RiaApplication.class)
 @AutoConfigureMockMvc
-@DisplayName("카카오 검색테스트")
-class KakaoMapControllerTest  {
+@DisplayName("한국 관광 공사 api test")
+class PublicDataMapControllerTest {
 
     @Autowired
-    protected MockMvc mockMvc;
+    private MockMvc mvc;
 
     @Test
-    @DisplayName("검색")
+    @DisplayName("위치기반장소 검색")
     void searchByKeywordTest() throws Exception {
 
         MockHttpSession mockHttpSession = new MockHttpSession();
         mockHttpSession.setAttribute(Constants.SESSION_USER_ID, "USER00");
 
-        for(int i = 0 ; i < 5 ; i++)
-            searchByKeyword("kakao", mockHttpSession);
+        // 테스트에 필요한 입력값 설정
+        String mapX = "126.923885";
+        String mapY = "37.557472";
+        String radius = "1000";
 
-        for(int i = 0 ; i < 3 ; i++)
-            searchByKeyword("스타벅스", mockHttpSession);
-
-    }
-
-    void searchByKeyword(String keyword, MockHttpSession mockHttpSession) throws Exception {
-
-        this.mockMvc.perform(get("/search")
-                        .param("keyword", keyword)
-                        .param("page", "1")
-                        .param("size", "10")
-                        .param("userId",Constants.SESSION_USER_ID )
+        this.mvc.perform(get("/api/searchPlace")
+                        .param("mapX", mapX)
+                        .param("mapY", mapY)
+                        .param("radius", radius)
+                        .param("userId", Constants.SESSION_USER_ID)
                         .session(mockHttpSession))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print(System.out));
+
 
     }
+
+
 }

@@ -19,6 +19,7 @@ public class GCSService {
     @Value("${gcs.bucketName}")
     private String bucketName;
 
+    @Autowired
     private Storage storage;
 
     @PostConstruct
@@ -49,10 +50,10 @@ public class GCSService {
         return file.getContentType() != null && file.getContentType().startsWith("image/");
     }
 
-    // storage 필드에 대한 접근자
+  /*  // storage 필드에 대한 접근자
     public Storage getStorage() {
         return storage;
     }
-
+*/
 
 }

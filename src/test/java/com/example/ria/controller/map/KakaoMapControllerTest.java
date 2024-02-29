@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = RiaApplication.class)
 @AutoConfigureMockMvc
-@DisplayName("검색테스트")
+@DisplayName("카카오 검색테스트")
 class KakaoMapControllerTest  {
 
     @Autowired

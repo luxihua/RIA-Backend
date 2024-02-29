@@ -1,5 +1,10 @@
 package com.example.ria.controller.map;
 
+import com.example.ria.dto.vo.PlaceList;
+import com.example.ria.dto.vo.PublicMapItem;
+import com.example.ria.service.map.PublicDataMapService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,87 +19,24 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class PublicDataMapController {
-    @Value("${openApi.serviceKey}")
-    private String serviceKey;
 
-    @Value("${openApi.callBackUrl}")
-    private String callBackUrl;
+    @Autowired
+    PublicDataMapService publicDataMapService;
 
-    @Value("${openApi._Type}")
-    private String _type;
 
-    @GetMapping("/locationBasedList1")
-    public ResponseEntity<String> callForecastApi(
-            @RequestParam(value = "MobileOS") String mobileOS,
-            @RequestParam(value = "MobileApp") String mobileApp,
-            @RequestParam(value = "mapX") String mapX,
-            @RequestParam(value = "mapY") String mapY,
-            @RequestParam(value = "radius") String radius,
-            @RequestParam(value = "contentTypeId") String contentTypeId
-    ) {
-        HttpURLConnection urlConnection = null;
-        InputStream stream = null;
-        String result = null;
+    @GetMapping(path = "/searchPlace")
+    public ResponseEntity<List<PublicMapItem>> searchLocationBasedList(@RequestParam("mapX") double mapX, @RequestParam("mapY") double mapY, @RequestParam("radius") double radius, @RequestParam("userId") String userId) throws Exception {
 
-        String urlStr = callBackUrl +
-                "MobileOS=" + mobileOS +
-                "&MobileApp=" + mobileApp +
-                "&_type=" + _type +
-                "&mapX=" + mapX +
-                "&mapY=" + mapY +
-                "&radius=" + radius +
-                "&contentTypeId=" + contentTypeId +
-                "&serviceKey=" + serviceKey;
-        System.out.println("urlStr = " + urlStr);
-        try {
-            URL url = new URL(urlStr);
+        log.info(" /search api start. user [{}], mapX [{}], mapY [{}], radius [{}]", userId, mapX, mapY, radius);
 
-            urlConnection = (HttpURLConnection) url.openConnection();
-            stream = getNetworkConnection(urlConnection);
-            result = readStreamToString(stream);
-
-            if (stream != null) stream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        List<PublicMapItem> list = publicDataMapService.searchLocationBasedList1(mapX, mapY, radius, userId);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    /* URLConnection 을 전달받아 연결정보 설정 후 연결, 연결 후 수신한 InputStream 반환 */
-    private InputStream getNetworkConnection(HttpURLConnection urlConnection) throws IOException {
-        urlConnection.setConnectTimeout(3000);
-        urlConnection.setReadTimeout(3000);
-        urlConnection.setRequestMethod("GET");
-        urlConnection.setDoInput(true);
 
-        if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            throw new IOException("HTTP error code : " + urlConnection.getResponseCode());
-        }
-
-        return urlConnection.getInputStream();
-    }
-
-    /* InputStream을 전달받아 문자열로 변환 후 반환 */
-    private String readStreamToString(InputStream stream) throws IOException {
-        StringBuilder result = new StringBuilder();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
-
-        String readLine;
-        while ((readLine = br.readLine()) != null) {
-            result.append(readLine + "\n\r");
-        }
-
-        br.close();
-
-        return result.toString();
-    }
 }

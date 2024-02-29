@@ -1,15 +1,21 @@
 package com.example.ria.service.map;
 
 
+import com.example.ria.dto.vo.PublicMapItem;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import com.example.ria.dto.vo.PublicMapItems;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -17,6 +23,8 @@ import com.example.ria.dto.vo.PublicMapItems;
 class PublicDataMapServiceTest {
     @InjectMocks
     private PublicDataMapService publicDataMapService; // Mock 객체 주입
+
+
 
     @Test
     void parsingJsonObject() {
@@ -31,5 +39,7 @@ class PublicDataMapServiceTest {
 
 
     }
+
+
 
 }

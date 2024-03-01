@@ -1,5 +1,6 @@
 package com.example.ria.service;
 
+import com.example.ria.common.GCSConstants;
 import com.google.cloud.storage.*;
 import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GCSService {
 
-    @Value("${gcs.bucketName}")
-    private String bucketName;
-
-    @Autowired
-    private Storage storage;
-
-    @PostConstruct
-    public void init() {
-        // Google Cloud Storage 객체 초기화
-        this.storage = StorageOptions.getDefaultInstance().getService();
-    }
+    private final Storage storage;
 
     public String uploadFileToGCS(MultipartFile image) throws IOException {
         if (!isImage(image)) {
@@ -36,7 +27,7 @@ public class GCSService {
         String uuid = UUID.randomUUID().toString();
         String ext = image.getContentType();
 
-        BlobId blobId = BlobId.of(bucketName, uuid);
+        BlobId blobId = BlobId.of(GCSConstants.BUCKET_NAME, uuid);
         BlobInfo blobInfo = storage.create(BlobInfo.newBuilder(blobId)
                 .setContentType(ext)
                 .build(),
@@ -50,10 +41,6 @@ public class GCSService {
         return file.getContentType() != null && file.getContentType().startsWith("image/");
     }
 
-  /*  // storage 필드에 대한 접근자
-    public Storage getStorage() {
-        return storage;
-    }
-*/
+
 
 }

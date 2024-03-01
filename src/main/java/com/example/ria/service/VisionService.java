@@ -13,9 +13,6 @@ import java.util.Map;
 @Service
 public class VisionService {
 
-    @Value("${gcs.imagePath}")
-    private String imagePath;
-
     // Detects whether the remote image on Google Cloud Storage has features you would want to
     // moderate.
     public void detectWebDetectionsGcs(String gcsPath) throws IOException {

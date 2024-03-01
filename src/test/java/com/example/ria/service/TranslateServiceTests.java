@@ -13,9 +13,6 @@ public class TranslateServiceTests {
     @Autowired
     private TranslateService translateService;
 
-    @Value("${gcs.projectId}")
-    private String projectId;
-
     @Test
     public void testTranslate() throws IOException {
 

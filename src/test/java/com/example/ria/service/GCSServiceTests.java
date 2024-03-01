@@ -1,8 +1,10 @@
 package com.example.ria.service;
 
 
+import com.example.ria.common.GCSConstants;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +23,8 @@ public class GCSServiceTests {
     @Autowired
     private GCSService gcsService;
 
-    @Value("${gcs.bucketName}")
-    private String bucketName;
+    @Autowired
+    private Storage storage;
 
     @Test
     public void testFileUpload() throws IOException {
@@ -34,8 +36,10 @@ public class GCSServiceTests {
         String uuid = gcsService.uploadFileToGCS(multipartFile);
 
         // BlobInfo 검색
-        BlobId blobId = BlobId.of(bucketName, uuid);
-        Blob blob = gcsService.getStorage().get(blobId);
+        BlobId blobId = BlobId.of(GCSConstants.BUCKET_NAME, uuid);
+
+        Blob blob = storage.get(blobId);
+
         assertNotNull(blob);
 
         System.out.println("GCSServiceTests : " + blob);

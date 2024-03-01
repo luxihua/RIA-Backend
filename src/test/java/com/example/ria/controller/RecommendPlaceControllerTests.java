@@ -12,8 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class RecommendPlaceControllerTests {
     private final GCSService gcsService = Mockito.mock(GCSService.class);
-    private final RecommendPlaceController recommentPlaceController = new RecommendPlaceController(gcsService);
-    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recommentPlaceController).build();
+    private final RecommendPlaceController recommendPlaceController = new RecommendPlaceController(gcsService);
+    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recommendPlaceController).build();
 
     @Test
     public void testUploadImage() throws Exception {

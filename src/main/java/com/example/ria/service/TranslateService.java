@@ -1,26 +1,24 @@
 package com.example.ria.service;
 
+import com.example.ria.common.GCSConstants;
 import com.google.cloud.translate.v3.LocationName;
 import com.google.cloud.translate.v3.TranslateTextRequest;
 import com.google.cloud.translate.v3.TranslateTextResponse;
 import com.google.cloud.translate.v3.TranslationServiceClient;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Component
+@Service
 public class TranslateService {
-
-    @Value("${gcs.projectId}")
-    private String projectId;
-
 
     public String translate(String targetLanguage, String text) throws IOException {
         // 클라이언트 초기화
         try (TranslationServiceClient client = TranslationServiceClient.create()) {
             // 번역 요청 환경설정
-            LocationName parent = LocationName.of(projectId, "global");
+            LocationName parent = LocationName.of(GCSConstants.PROJECT_ID, "global");
             TranslateTextRequest request = TranslateTextRequest.newBuilder()
                     .setParent(parent.toString())
                     .setMimeType("text/plain")

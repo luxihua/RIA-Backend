@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class GoogleStorageConfig {
+
     @Bean
     public Storage storage() {
         return StorageOptions.getDefaultInstance().getService();

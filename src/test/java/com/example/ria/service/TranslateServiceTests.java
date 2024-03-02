@@ -2,7 +2,6 @@ package com.example.ria.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
@@ -21,5 +20,6 @@ public class TranslateServiceTests {
         String text = "Hongdae Street";
 
         String translatedText = translateService.translate(targetLanguage, text);
+        System.out.println("TranslateServiceTests: " + translatedText);
     }
 }

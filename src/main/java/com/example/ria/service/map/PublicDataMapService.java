@@ -58,14 +58,14 @@ public class PublicDataMapService {
                 .queryParam(RADIUS, radius)
                 .queryParam(CONTENT_TYPE_ID, contentTypeId)
                 .queryParam(SERVICE_KEY, serviceKey)
-                .build();
+                .build(true); // 이중 에러가 나지 않도록 이미 인코딩이 되어 있음을 명시.
 
         log.info("uriComponent : {}", uriComponents);
 
         // request 요청 설정
         // api 호출, 생성된 url로 get 요청을 수행.
         HttpEntity<String> response = restClient.get().
-                uri(uriComponents.toUriString()).
+                uri(uriComponents.toUri()).
                 retrieve()
                 .toEntity(String.class);
 

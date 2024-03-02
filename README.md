@@ -9,12 +9,25 @@
 
 ---------------------
 
+* common
+    + Constants
+    + GCSConstants
+
+* config
+    + GoogleStorageConfig
+    + RestClientConfig
+
 
 * controller
     + UserController(CRUD)
-    + GCSController(Upload)
     + map(package)
-        - KakaoMapController
+        - RecommendPlaceController
+            * Image 업로드 하기
+                - Input : Image(MultiPartFile)
+                - Output : uuid(String)
+            * Image Web-Detection 결과 보여주기
+                - Input : uuid(String)
+                - Output : bestGuessLabel(String)
             * keyword로 장소 찾기
                 - Input : Keyword(String)
                 - Output : List<placeSearchDto>
@@ -22,8 +35,19 @@
             * 공공데이터 전달 받기
                 - Input : placeSearchDto
                 - Output : List<placeSearchDto>
-                
-     
+
+* domain
+
+* dto
+    + request(package)
+        - PlaceSearchDto
+    + response(package)
+        - PlaceResultDto
+
+    
+* repository
+
+
 * service
     + UserService(CRUD)
     + GCSService(Upload)
@@ -41,24 +65,9 @@
         - Google Translate API로 번역 결과 GET
         - Input : productId(String), targetLanguage(String), text(String)
         - Output : String
-                
-                
-                
 
-* domain
 
-* repository
 
-* config
-
-* dto
-    + request(package)
-        - PlaceSearchDto
-    + response(package)
-        - PlaceResultDto
-        
-        
-        
         
 --------------------------
 

@@ -1,7 +1,7 @@
 package com.example.ria.service;
 
 import com.google.cloud.vision.v1.*;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,9 +13,16 @@ import java.util.Map;
 @Service
 public class VisionService {
 
+    private final TranslateService translateService;
+
+    @Autowired
+    public VisionService(TranslateService translateService) {
+        this.translateService = translateService;
+    }
+
     // Detects whether the remote image on Google Cloud Storage has features you would want to
     // moderate.
-    public void detectWebDetectionsGcs(String gcsPath) throws IOException {
+    public String detectWebDetectionsGcs(String gcsPath) throws IOException {
 
         List<AnnotateImageRequest> requests = getImageRequests(gcsPath);
 
@@ -29,7 +36,6 @@ public class VisionService {
             // 에러 처리
             if (res.hasError()) {
                 System.out.format("Error: %s%n", res.getError().getMessage());
-                return;
             }
 
             WebDetection annotation = res.getWebDetection();
@@ -43,6 +49,8 @@ public class VisionService {
             for (String label : bestGuessLabel) {
                 System.out.println("Best Guess label = " + label);
             }
+
+            return translateService.translate("ko", bestGuessLabel.get(0));
 
         }
     }

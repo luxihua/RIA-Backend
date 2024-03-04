@@ -14,24 +14,14 @@ import java.util.Map;
 @Service
 @Slf4j
 public class VisionService {
-
     @Autowired
     private TranslateService translateService;
 
-    @Autowired
-    public VisionService(TranslateService translateService) {
-        this.translateService = translateService;
-    }
-
-    // Detects whether the remote image on Google Cloud Storage has features you would want to
-    // moderate.
     public String detectWebDetectionsGcs(String gcsPath) throws IOException {
 
         List<AnnotateImageRequest> requests = getImageRequests(gcsPath);
 
-        // Initialize client that will be used to send requests. This client only needs to be created
-        // once, and can be reused for multiple requests. After completing all of your requests, call
-        // the "close" method on the client to safely clean up any remaining background resources.
+
         try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
             BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
             AnnotateImageResponse res = response.getResponses(0);
@@ -43,8 +33,7 @@ public class VisionService {
 
             WebDetection annotation = res.getWebDetection();
 
-            log.debug("Entity:Id:Score");
-            log.debug("===============");
+           
             Map<String,Float> entityData = getEntityData(annotation);
             printMapData(entityData);
             List<String> bestGuessLabel = getBestGuessLabelsList(annotation);
@@ -88,6 +77,8 @@ public class VisionService {
     }
 
     public static void printMapData(Map<String, Float> entityData) {
+         log.debug("Entity:Id:Score");
+        log.debug("===============");
         for (Map.Entry<String, Float> entry : entityData.entrySet()) {
             log.debug(entry.getKey() + " : " + entry.getValue());
         }

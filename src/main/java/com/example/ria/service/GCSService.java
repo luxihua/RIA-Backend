@@ -17,8 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GCSService {
 
-    @Autowired
-    private Storage storage;
+    private final Storage storage;
 
     public String uploadFileToGCS(MultipartFile image) throws IOException {
         if (!isImage(image)) {

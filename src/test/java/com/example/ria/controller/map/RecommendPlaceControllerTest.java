@@ -20,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -44,9 +45,33 @@ class RecommendPlaceControllerTest {
     @MockBean
     private VisionService visionService;
 
+   /* @Test
+    @DisplayName("RecommendPlaceController test")
+    void recommendPlaceTest() throws Exception {
+
+        MockHttpSession mockHttpSession = new MockHttpSession();
+        mockHttpSession.setAttribute(Constants.SESSION_USER_ID, "USER00");
+
+        Resource imageResource = new ClassPathResource("/hongdae.jpg");
+
+        MockMultipartFile image = new MockMultipartFile(
+                "image",
+                imageResource.getFilename(),
+                "image/jpeg",
+                imageResource.getInputStream().readAllBytes()
+        );
+
+        this.mockMvc.perform(multipart("/recommend_place")
+                        .file(image)
+                        .param("userId", Constants.SESSION_USER_ID)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }*/
+
     @Test
     @DisplayName("이미지 업로드 및 분석 테스트")
-    void recommendPlaceTest() throws Exception {
+    void recommendPlaceSampleTest() throws Exception {
 
         Resource imageResource = new ClassPathResource("/hongdae.jpg");
 
@@ -65,8 +90,8 @@ class RecommendPlaceControllerTest {
         when(gcsService.uploadFileToGCS(any(MultipartFile.class))).thenReturn(gcsPath);
         when(visionService.detectWebDetectionsGcs(anyString())).thenReturn(visionResult);
 
-         this.mockMvc.perform(multipart("/recommend-place")
-                .file(image))
+        this.mockMvc.perform(multipart("/recommend-place_Test")
+                        .file(image))
                 .andExpect(status().isOk())
                 .andExpect(content().string(visionResult))
                 .andDo(print());
@@ -74,16 +99,29 @@ class RecommendPlaceControllerTest {
     }
 
     @Test
-    @DisplayName("카카오 검색")
-    void searchByKeywordTest() throws Exception {
+    @DisplayName("단일 카카오 검색 Test")
+    void searchByKeywordSampleTest() throws Exception {
 
         MockHttpSession mockHttpSession = new MockHttpSession();
         mockHttpSession.setAttribute(Constants.SESSION_USER_ID, "USER00");
 
-        for(int i = 0 ; i < 5 ; i++)
+        searchByKeyword("kakao", mockHttpSession);
+
+        searchByKeyword("스타벅스", mockHttpSession);
+
+    }
+
+    @Test
+    @DisplayName("다중 카카오 검색 test")
+    void searchByKeywordTest2() throws Exception {
+
+        MockHttpSession mockHttpSession = new MockHttpSession();
+        mockHttpSession.setAttribute(Constants.SESSION_USER_ID, "USER00");
+
+        for (int i = 0; i < 5; i++)
             searchByKeyword("kakao", mockHttpSession);
 
-        for(int i = 0 ; i < 3 ; i++)
+        for (int i = 0; i < 3; i++)
             searchByKeyword("스타벅스", mockHttpSession);
 
     }
@@ -94,9 +132,10 @@ class RecommendPlaceControllerTest {
                         .param("keyword", keyword)
                         .param("page", "1")
                         .param("size", "10")
-                        .param("userId",Constants.SESSION_USER_ID )
+                        .param("userId", Constants.SESSION_USER_ID)
                         .session(mockHttpSession))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(print());
 
     }
 }

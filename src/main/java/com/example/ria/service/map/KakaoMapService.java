@@ -72,10 +72,8 @@ public class KakaoMapService {
 
 
         // redirectUrl setting, 검색된 각 장소에 대해 리다이렉트 url을 설정함.
-        kakaoResponse.getDocuments().forEach(place -> {
-            place.setRedirectUrl(Constants.MAP_REDIRECT_URL + place.getId());
-        });
-        log.info("placeList : {}", kakaoResponse.getDocuments());
+        kakaoResponse.getDocuments().forEach(place -> place.setRedirectUrl(Constants.MAP_REDIRECT_URL + place.getId()));
+        log.debug("placeList : {}, placeListCounts ={}", kakaoResponse.getDocuments(),kakaoResponse.getDocuments().size());
         // output setting
 
         return new PlaceList(page, totalPage, size, pageableCount, kakaoResponse.getDocuments());

@@ -1,6 +1,7 @@
 package com.example.ria.service;
 
 import com.google.cloud.vision.v1.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class VisionService {
 
-    private final TranslateService translateService;
+    @Autowired
+    private TranslateService translateService;
 
     @Autowired
     public VisionService(TranslateService translateService) {
@@ -35,19 +38,19 @@ public class VisionService {
 
             // 에러 처리
             if (res.hasError()) {
-                System.out.format("Error: %s%n", res.getError().getMessage());
+                log.error("Error: %s%n", res.getError().getMessage());
             }
 
             WebDetection annotation = res.getWebDetection();
 
-            System.out.println("Entity:Id:Score");
-            System.out.println("===============");
+            log.debug("Entity:Id:Score");
+            log.debug("===============");
             Map<String,Float> entityData = getEntityData(annotation);
             printMapData(entityData);
             List<String> bestGuessLabel = getBestGuessLabelsList(annotation);
 
             for (String label : bestGuessLabel) {
-                System.out.println("Best Guess label = " + label);
+                log.debug("Best Guess label = " + label);
             }
 
             return translateService.translate("ko", bestGuessLabel.get(0));
@@ -86,7 +89,7 @@ public class VisionService {
 
     public static void printMapData(Map<String, Float> entityData) {
         for (Map.Entry<String, Float> entry : entityData.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
+            log.debug(entry.getKey() + " : " + entry.getValue());
         }
     }
 }

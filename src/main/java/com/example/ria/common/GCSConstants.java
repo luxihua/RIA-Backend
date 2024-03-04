@@ -6,7 +6,7 @@ public class GCSConstants {
 
     public static final String BUCKET_NAME = "webdetection-bucket";
 
-    public static final String IMAGE_PATH = "gs://vision_practice_example/";
+    public static final String IMAGE_PATH = "gs://webdetection-bucket/";
 
 
 }

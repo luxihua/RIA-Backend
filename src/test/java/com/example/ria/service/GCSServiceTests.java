@@ -5,12 +5,15 @@ import com.example.ria.common.GCSConstants;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Storage;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Slf4j
 public class GCSServiceTests {
 
     @Autowired
@@ -44,9 +48,7 @@ public class GCSServiceTests {
 
         Blob blob = storage.get(blobId);
 
-        assertNotNull(blob);
-
-        System.out.println("GCSServiceTests : " + blob);
+        log.info("GCSServiceTests: {}",  blob);
 
     }
 

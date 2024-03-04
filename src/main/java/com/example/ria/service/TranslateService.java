@@ -5,11 +5,13 @@ import com.google.cloud.translate.v3.LocationName;
 import com.google.cloud.translate.v3.TranslateTextRequest;
 import com.google.cloud.translate.v3.TranslateTextResponse;
 import com.google.cloud.translate.v3.TranslationServiceClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
+@Slf4j
 public class TranslateService {
 
     public String translate(String targetLanguage, String text) throws IOException {
@@ -27,7 +29,7 @@ public class TranslateService {
             // 번역 수행
             TranslateTextResponse response = client.translateText(request);
 
-            System.out.println(response.getTranslations(0).getTranslatedText());
+            log.debug(response.getTranslations(0).getTranslatedText());
 
             return response.getTranslations(0).getTranslatedText();
         }

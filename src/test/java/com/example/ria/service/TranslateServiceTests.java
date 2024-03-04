@@ -1,5 +1,6 @@
 package com.example.ria.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 
 @SpringBootTest
+@Slf4j
 public class TranslateServiceTests {
 
     @Autowired
@@ -20,6 +22,6 @@ public class TranslateServiceTests {
         String text = "Hongdae Street";
 
         String translatedText = translateService.translate(targetLanguage, text);
-        System.out.println("TranslateServiceTests: " + translatedText);
+        log.info("TranslateServiceTests: {}", translatedText);
     }
 }

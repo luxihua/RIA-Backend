@@ -4,6 +4,8 @@ import com.example.ria.common.GCSConstants;
 import com.google.cloud.storage.*;
 import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class GCSService {
 
@@ -30,8 +33,8 @@ public class GCSService {
                 .build(),
         image.getBytes()
         );
-        System.out.println("GCSService : " + blobInfo);
-        return uuid;
+        log.debug("GCSService : " + blobInfo);
+        return GCSConstants.IMAGE_PATH+uuid;
     }
 
     private boolean isImage(MultipartFile file) {

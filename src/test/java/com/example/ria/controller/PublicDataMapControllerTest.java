@@ -1,4 +1,4 @@
-package com.example.ria.controller.map;
+package com.example.ria.controller;
 
 
 import com.example.ria.RiaApplication;

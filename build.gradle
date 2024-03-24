@@ -13,10 +13,6 @@ java {
 
 repositories {
     mavenCentral()
-    google()
-    maven {
-        url 'https://mvnrepository.com/artifact/com.google.cloud/'
-    }
 }
 
 dependencies {
@@ -26,11 +22,6 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.30'
     annotationProcessor('org.projectlombok:lombok:1.18.30')
     testAnnotationProcessor 'org.projectlombok:lombok'
-    implementation platform('com.google.cloud:libraries-bom:26.1.5')
-    implementation 'com.google.cloud:google-cloud-vision'
-    implementation 'com.google.cloud:google-cloud-storage'
-    implementation 'com.google.cloud:google-cloud-translate:2.35.0'
-
 }
 
 tasks.named('test') {

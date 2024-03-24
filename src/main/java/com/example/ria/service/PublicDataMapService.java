@@ -1,4 +1,4 @@
-package com.example.ria.service.map;
+package com.example.ria.service;
 
 import com.example.ria.common.Constants;
 import com.example.ria.dto.vo.PublicMapItem;

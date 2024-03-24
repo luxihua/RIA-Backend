@@ -1,7 +1,7 @@
-package com.example.ria.controller.map;
+package com.example.ria.controller;
 
 import com.example.ria.dto.vo.PublicMapItem;
-import com.example.ria.service.map.PublicDataMapService;
+import com.example.ria.service.PublicDataMapService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

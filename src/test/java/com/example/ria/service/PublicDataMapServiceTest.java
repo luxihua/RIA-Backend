@@ -1,4 +1,4 @@
-package com.example.ria.service.map;
+package com.example.ria.service;
 
 
 import org.junit.jupiter.api.extension.ExtendWith;
